@@ -1,0 +1,23 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs and caches
+*.log
+.cache/
+node_modules/
+
+# Local server / secrets (never commit)
+config.php
+*.env
+.env
+
+# AI helper brief (keep out of the public repo)
+PUSH-WITH-AI.md

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Time Capsule Tapes — Content Cards</title>
+<meta name="description" content="A documentary content-card studio for Time Capsule Tapes. 40 brand cards across five themes — ratio, background and layout switchable, text editable, export-ready." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&family=Chivo+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=20260612-0239" />
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C9BFA6"/><stop offset=".5" stop-color="#B85A39"/><stop offset="1" stop-color="#8A2414"/>
+    </linearGradient></defs>
+    <rect width="100" height="100" fill="url(#g)"/>
+    <g fill="#F4ECDC" font-family="monospace" font-weight="700" text-anchor="middle">
+      <text x="50" y="44" font-size="9" letter-spacing="1.5">TIME —</text>
+      <text x="50" y="56" font-size="9" letter-spacing="1.5">CAPSULE</text>
+      <text x="50" y="68" font-size="9" letter-spacing="1.5">TAPES</text>
+    </g>
+  </svg>
+</template>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══════ DOCK ═══════ -->
+  <div class="dock" id="dock">
+    <div class="dock-controls">
+      <div class="dgroup dgroup-ratio">
+        <span class="lab">Ratio</span>
+        <div class="select" data-ctl="ratio">
+          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-current"></span><span class="select-arrow" aria-hidden="true"></span>
+          </button>
+          <div class="select-menu" role="listbox">
+            <button type="button" data-v="1x1" role="option">1:1</button>
+            <button type="button" data-v="4x5" role="option">4:5</button>
+            <button type="button" data-v="9x16" role="option">9:16</button>
+            <button type="button" data-v="16x9" role="option">16:9</button>
+            <button type="button" data-v="3x4" role="option">3:4</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dgroup dgroup-bg">
+        <span class="lab">Background</span>
+        <div class="select" data-ctl="bg">
+          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-current"></span><span class="select-arrow" aria-hidden="true"></span>
+          </button>
+          <div class="select-menu" role="listbox">
+            <button type="button" data-v="mixed" role="option">Mixed</button>
+            <button type="button" data-v="ember" role="option">Ember</button>
+            <button type="button" data-v="deep" role="option">Deep</button>
+            <button type="button" data-v="oxblood" role="option">Oxblood</button>
+            <button type="button" data-v="limestone" role="option">Limestone</button>
+            <button type="button" data-v="sand" role="option">Sand</button>
+            <button type="button" data-v="photo" role="option">Photo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dgroup dgroup-layout">
+        <span class="lab">Layout</span>
+        <div class="select" data-ctl="layout">
+          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-current"></span><span class="select-arrow" aria-hidden="true"></span>
+          </button>
+          <div class="select-menu" role="listbox">
+            <button type="button" data-v="editorial" role="option">Editorial</button>
+            <button type="button" data-v="centered" role="option">Centered</button>
+            <button type="button" data-v="statement" role="option">Statement</button>
+            <button type="button" data-v="document" role="option">Document</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dgroup dgroup-vignette">
+        <span class="lab">Vignette</span>
+        <div class="select" data-ctl="vignette">
+          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-current"></span><span class="select-arrow" aria-hidden="true"></span>
+          </button>
+          <div class="select-menu" role="listbox">
+            <button type="button" data-v="on" role="option">On</button>
+            <button type="button" data-v="off" role="option">Off</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dgroup dgroup-theme">
+        <span class="lab">Theme</span>
+        <div class="select" data-ctl="theme">
+          <button class="select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="select-current"></span><span class="select-arrow" aria-hidden="true"></span>
+          </button>
+          <div class="select-menu" role="listbox">
+            <button type="button" data-v="all" role="option">All</button>
+            <button type="button" data-v="memory" role="option">Memory</button>
+            <button type="button" data-v="doc" role="option">Doc</button>
+            <button type="button" data-v="family" role="option">Family</button>
+            <button type="button" data-v="place" role="option">Place</button>
+            <button type="button" data-v="studio" role="option">Studio</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dock-actions">
+        <button class="act" id="photoBtn" aria-label="Photo image">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M4 5h16v14H4V5Zm3 3v8h10V8H7Zm7.2 6.1H8.1l2.2-2.8 1.6 1.8 2-2.6 3 3.6h-2.7ZM15 9.2a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6Z"/>
+          </svg>
+        </button>
+        <button class="act" id="editBtn" aria-label="Edit text">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 5v3h-2v11h-4V8h-1v11H8v-6a4 4 0 0 1 0-8h10Z"/>
+          </svg>
+        </button>
+        <button class="act" id="exportBtn" aria-label="Export PNG">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10 4h4v8h3l-5 5-5-5h3V4Zm-5 14h14v3H5v-3Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <input type="file" id="photoInput" accept="image/*" hidden />
+  </div>
+
+  <!-- ═══════ CANVAS ═══════ -->
+  <main class="canvas">
+    <div class="grid" id="grid"></div>
+  </main>
+
+</div>
+
+<!-- ═══════ FOCUS OVERLAY ═══════ -->
+<div class="focus" id="focus">
+  <button class="fclose" id="focusClose">Close <span aria-hidden="true">✕</span></button>
+  <button class="fnav fprev" id="focusPrev">← Prev</button>
+  <div class="stage" id="focusStage"></div>
+  <button class="fnav fnext" id="focusNext">Next →</button>
+  <button class="fdl" id="focusDownload"><i></i>Download PNG</button>
+</div>
+
+<!-- ═══════ CONTENT (embedded fallback — app.js prefers content.tsv) ═══════ -->
+<script type="text/tsv" id="tsv">id	theme	type	eyebrow	headline	support
+01	memory	quote	Memory & Legacy	A photograph is the one thing that outlasts the moment it was made.	
+02	memory	quote	Memory & Legacy	Made to become visual heirlooms for the generations who come after.	
+03	memory	tip	Field Note	Print the ones that matter.	A file is a memory in waiting. A print is a memory kept.
+04	memory	quote	Memory & Legacy	We don't take pictures. We keep them.	For the people not yet born to hold them.
+05	memory	quote	Memory & Legacy	What you photograph today, someone will treasure in fifty years.	
+06	memory	cta	Begin	Start your family legacy.	hello@timecapsuletapes.com
+07	memory	quote	Memory & Legacy	Some moments are worth more than the second they happen in.	
+08	memory	stat	Made to Last	Heirlooms,	not content.
+09	doc	quote	Documentary	No studios. No filters. Only honest images.	
+10	doc	quote	Documentary	The best photographs are found, not posed.	
+11	doc	tip	Field Note	Forget the camera is there.	The picture you don't perform is the one worth keeping.
+12	doc	question	A Question	What does your family look like when no one is performing?	
+13	doc	quote	Documentary	We document what's real — presence, atmosphere, enduring value.	
+14	doc	quote	Documentary	An honest image asks nothing of you but your presence.	
+15	doc	cta	Work With Us	Want photographs that tell the truth?	hello@timecapsuletapes.com
+16	doc	quote	Documentary	Presence over polish. Always.	
+17	doc	question	A Question	When did you last look at a photograph and feel something?	
+18	family	quote	Family & Connection	Real families. Real homes. Real stories.	
+19	family	quote	Family & Connection	The warmth you're looking for already exists within your family.	We're just here to document it.
+20	family	quote	Family & Connection	You live it.<br>We capture it.	
+21	family	tip	Field Note	Choose the place your family already loves.	Familiar rooms make honest pictures.
+22	family	question	A Question	Which room holds your family's story?	
+23	family	quote	Family & Connection	Three generations in one frame isn't a photo. It's an inheritance.	
+24	family	cta	Gather Everyone	Bring the whole family. We'll do the rest.	hello@timecapsuletapes.com
+25	place	quote	Place & Culture	We make photographs of people, places, and the culture that connects them.	
+26	place	quote	Place & Culture	Real homes, streets, gatherings and landscapes — turned into our canvas.	
+27	place	stat	Based in Malta	Malta,	available across Europe.
+28	place	tip	Field Note	Let the location speak.	The street you grew up on belongs in the picture.
+29	place	quote	Place & Culture	Every place has a memory. We photograph it before it changes.	
+30	place	quote	Place & Culture	Malta is small. Its stories are not.	
+31	place	cta	Anywhere in Europe	From Valletta to anywhere you call home.	hello@timecapsuletapes.com
+32	studio	quote	The Studio	Created with care, attention, and deep respect for what's real.	
+33	studio	tip	Field Note	Good light and a little time beat any studio.	We work entirely on location.
+34	studio	quote	The Studio	We work slowly, on purpose.	
+35	studio	announcement	Now Booking	Family legacy sessions, Malta & Europe.	A limited number of sessions each season.
+36	studio	cta	Tell Us Your Story	We'll shape it into something lasting.	hello@timecapsuletapes.com
+37	studio	tip	Field Note	Wear what you'd wear on an ordinary Sunday.	The ordinary is exactly what we're after.
+38	studio	announcement	A New Chapter	Documentary family legacy portraits.	A dedicated chapter of the studio.
+39	studio	quote	The Studio	Care is the whole method.	
+40	studio	cta	Say Hello	Your family's story, made to outlast the moment.	hello@timecapsuletapes.com
+</script>
+
+<script src="app.js?v=20260612-0228"></script>
+<script async src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<script async src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+</body>
+</html>

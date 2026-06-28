@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Time Capsule Tapes — Design Standard</title>
+<meta name="description" content="The single authoritative design standard for Time Capsule Tapes — colour, type, atmosphere, components, motion. All in one file." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,500;0,700;1,400&family=Chivo+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+/* ════════════════════════════════════════════════════════════════
+   TIME CAPSULE TAPES — DESIGN STANDARD (all-in-one)
+   Rendered in the brand's own idiom: Chivo + Chivo Mono, a warm
+   fabric gradient canvas, fine grain, a soft vignette, and the
+   paper ⇄ ink inversion that defines the two modes.
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --sans:"Chivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Chivo Mono",ui-monospace,monospace;
+
+  --paper:#F4ECDC; --paper-2:rgba(244,236,220,.82); --paper-3:rgba(244,236,220,.52);
+  --line-paper:rgba(244,236,220,.26);
+  --ink:#241F18; --ink-2:#574E40; --ink-3:#8A8071; --line-ink:rgba(36,31,24,.20);
+  --red:#9E2A14; --stone:#E7DECC;
+
+  --maxw:1160px;
+  --gut:clamp(22px,4.2vw,76px);
+  --ease:cubic-bezier(.22,.65,.18,1);
+  --quint:cubic-bezier(.22,1,.36,1);
+
+  /* live text tokens — flipped by [data-mode] */
+  --text:var(--paper); --text-2:var(--paper-2); --text-3:var(--paper-3); --line:var(--line-paper);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#7C2113}
+body{font-family:var(--sans);color:var(--text);overflow-x:hidden;line-height:1.6;
+  transition:color .9s var(--ease)}
+::selection{background:var(--paper);color:var(--red)}
+[data-mode="light"] ::selection{background:var(--red);color:var(--paper)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ───── canvas: warm fabric gradient (dark) ⇄ limestone (light) ───── */
+.bg-base{position:fixed;inset:0;z-index:-4;
+  background:linear-gradient(150deg,#C9BFA6 0%,#B85A39 46%,#8A2414 100%);
+  transition:opacity .9s var(--ease)}
+.bg-stone{position:fixed;inset:0;z-index:-4;background:var(--stone);opacity:0;
+  transition:opacity .9s var(--ease)}
+[data-mode="light"] .bg-stone{opacity:1}
+.grain{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vig{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(130% 120% at 50% 36%,transparent 56%,rgba(40,10,4,.30));
+  transition:background .9s var(--ease)}
+[data-mode="light"] .vig{background:radial-gradient(130% 120% at 50% 40%,transparent 60%,rgba(60,46,22,.16))}
+
+/* light-mode token swap (mirrors the site's body.on-light) */
+[data-mode="light"]{--text:var(--ink);--text-2:var(--ink-2);--text-3:var(--ink-3);--line:var(--line-ink)}
+
+/* ───── shell ───── */
+.wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:clamp(34px,5vw,64px) var(--gut) 120px}
+
+/* type primitives */
+.kick{font-family:var(--mono);font-weight:500;font-size:clamp(.62rem,.74vw,.72rem);
+  letter-spacing:.26em;text-transform:uppercase;color:var(--text-3)}
+.mono{font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.2em}
+.display{font-weight:700;text-transform:uppercase;line-height:.94;letter-spacing:-.01em;text-wrap:balance}
+.body{font-weight:400;font-size:clamp(1.05rem,1rem + 0.3vw,1.25rem);line-height:1.62;color:var(--text-2);max-width:60ch}
+.body+.body{margin-top:1em}
+
+/* ───── masthead ───── */
+.masthead{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;flex-wrap:wrap;
+  padding-bottom:clamp(40px,5vw,64px);border-bottom:1px solid var(--line);margin-bottom:clamp(44px,5vw,72px)}
+.wordmark{display:flex;align-items:center;gap:11px;font-family:var(--mono);font-weight:700;
+  font-size:clamp(11px,1vw,13px);letter-spacing:.3em;white-space:nowrap;margin-bottom:22px}
+.wordmark .dash{height:1.5px;width:26px;background:currentColor;display:inline-block}
+.eyebrow{display:inline-flex;align-items:center;gap:11px}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--red);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--red) 22%,transparent)}
+h1{font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:-.018em;line-height:.9;
+  font-size:clamp(2.7rem,6.4vw,5.6rem);margin:20px 0 0;max-width:13ch}
+.lede{color:var(--text-2);font-size:clamp(1.05rem,1rem + 0.3vw,1.25rem);line-height:1.6;max-width:54ch;margin-top:22px}
+
+/* mode toggle — sticky, always visible */
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:2px;overflow:hidden;flex:0 0 auto;
+  background:color-mix(in srgb,var(--text) 12%,transparent);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);
+  position:fixed;top:clamp(16px,2.4vh,28px);right:clamp(16px,2.4vw,36px);z-index:200}
+.toggle button{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  cursor:pointer;background:transparent;border:none;color:var(--text-3);padding:11px 18px;transition:all .3s var(--ease)}
+.toggle button.on{background:var(--red);color:var(--paper)}
+[data-mode="light"] .toggle button.on{background:var(--ink);color:var(--stone)}
+
+/* ───── section scaffold ───── */
+section{margin-top:clamp(64px,8vw,104px)}
+.sec-tag{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--text);display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec-tag::before{content:attr(data-n);color:var(--red)}
+[data-mode="light"] .sec-tag::before{color:var(--red)}
+.sec-tag::after{content:"";flex:1;height:1px;background:var(--line)}
+.sec-title{font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:-.012em;line-height:.96;
+  font-size:clamp(1.9rem,3.4vw,3rem);margin-bottom:14px;max-width:18ch}
+.sec-note{color:var(--text-2);font-size:1.02rem;line-height:1.6;max-width:64ch;margin-bottom:32px}
+.sec-note code,.body code,.card-d code{font-family:var(--mono);font-size:.86em;
+  background:color-mix(in srgb,var(--red) 12%,transparent);color:var(--text);padding:1px 6px;border-radius:3px}
+
+/* ───── brand principles ───── */
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:18px;margin-top:8px}
+.principle{border:1px solid var(--line);padding:24px 22px 26px;background:color-mix(in srgb,var(--text) 3%,transparent)}
+.principle .n{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;color:var(--red);text-transform:uppercase}
+.principle h4{font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:-.005em;
+  font-size:1.28rem;line-height:1.05;margin:14px 0 10px}
+.principle p{font-size:.96rem;line-height:1.55;color:var(--text-2)}
+.signature{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px 30px}
+.signature li{list-style:none;display:flex;gap:12px;font-size:.96rem;line-height:1.5;color:var(--text-2);
+  padding:9px 0;border-bottom:1px solid var(--line)}
+.signature li b{color:var(--text);font-weight:700}
+.signature li::before{content:"—";color:var(--red);flex:0 0 auto}
+
+/* ───── two modes ───── */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:720px){.modes{grid-template-columns:1fr}}
+.mode-card{border:1px solid var(--line);overflow:hidden;position:relative;min-height:240px;
+  display:flex;flex-direction:column;justify-content:flex-end;padding:24px 22px}
+.mode-card.dark{background:linear-gradient(150deg,#C9BFA6 0%,#B85A39 46%,#8A2414 100%);color:#F4ECDC}
+.mode-card.light{background:#E7DECC;color:#241F18}
+.mode-card .mc-tag{font-family:var(--mono);font-weight:500;font-size:.62rem;letter-spacing:.22em;
+  text-transform:uppercase;opacity:.72;position:absolute;top:18px;left:22px}
+.mode-card h3{font-family:var(--sans);font-weight:700;text-transform:uppercase;line-height:.92;letter-spacing:-.012em;
+  font-size:clamp(1.8rem,3vw,2.5rem)}
+.mode-card p{font-size:.92rem;line-height:1.5;margin-top:10px;max-width:34ch;opacity:.85}
+.mode-card .mc-mail{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;margin-top:16px;
+  display:inline-flex;align-items:center;gap:10px;opacity:.8}
+.mode-card .mc-mail i{width:22px;height:1px;background:currentColor;display:inline-block}
+
+/* ───── swatch grid ───── */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:13px}
+.sw{border:1px solid var(--line);overflow:hidden;background:color-mix(in srgb,var(--text) 3%,transparent)}
+.sw .chip{height:64px;border-bottom:1px solid var(--line)}
+.sw .meta{padding:12px 14px 14px}
+.sw .meta b{display:block;color:var(--text);font-weight:700;font-size:.9rem;letter-spacing:.01em;margin-bottom:3px}
+.sw .meta .role{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:9px}
+.sw .vrow{display:flex;align-items:baseline;gap:9px;line-height:1.5}
+.sw .vrow .lbl{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);width:30px;flex:0 0 auto}
+.sw .vrow .v{font-family:var(--mono);font-size:.66rem;color:var(--text-2);white-space:nowrap}
+
+/* ───── type specimen ───── */
+.specimen{display:flex;flex-direction:column;gap:0}
+.spec-row{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--line)}
+.spec-label{font-family:var(--mono);font-size:.64rem;color:var(--text-3);width:150px;flex:0 0 auto;letter-spacing:.08em;text-transform:uppercase;line-height:1.5}
+.spec-d{font-family:var(--sans);font-weight:700;text-transform:uppercase;font-size:clamp(2rem,4vw,3rem);line-height:.92;letter-spacing:-.015em}
+.spec-h{font-family:var(--sans);font-weight:700;text-transform:uppercase;font-size:1.7rem;letter-spacing:-.01em}
+.spec-b{font-family:var(--sans);font-weight:400;font-size:1.18rem}
+.spec-m{font-family:var(--mono);font-weight:500;font-size:.92rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-2)}
+.scale-tbl{width:100%;border-collapse:collapse;margin-top:26px;font-size:.86rem}
+.scale-tbl th,.scale-tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.scale-tbl th{font-family:var(--mono);font-weight:500;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.scale-tbl td{color:var(--text-2)}
+.scale-tbl td:first-child{color:var(--text);font-weight:700}
+.scale-tbl code{font-family:var(--mono);font-size:.82em;color:var(--text-2)}
+
+/* ───── atmosphere tiles ───── */
+.atmo{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px}
+.atile{border:1px solid var(--line);overflow:hidden;background:color-mix(in srgb,var(--text) 3%,transparent)}
+.atile .demo{height:130px;position:relative;overflow:hidden}
+.atile .cap{padding:14px 16px 16px}
+.atile .cap h4{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.atile .cap p{font-size:.85rem;line-height:1.5;color:var(--text-2)}
+.d-grad{background:linear-gradient(150deg,#C9BFA6 0%,#B85A39 46%,#8A2414 100%)}
+.d-grain{background:linear-gradient(150deg,#C9BFA6,#8A2414);position:relative}
+.d-grain::after{content:"";position:absolute;inset:0;opacity:.6;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+.d-vig{background:#8A2414;position:relative}
+.d-vig::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 110% at 50% 36%,transparent 50%,rgba(40,10,4,.55))}
+.d-scrim{background:linear-gradient(150deg,#C9BFA6,#8A2414);position:relative}
+.d-scrim::after{content:"";position:absolute;inset:0;background:#000;opacity:.34}
+.d-cross{background:#8A2414;position:relative;display:grid;place-items:center}
+.d-cross span{position:absolute;inset:0;background-size:cover;background-position:center}
+.d-cross .a{background:linear-gradient(135deg,#7C2113,#B85A39);animation:xfade 3.2s var(--ease) infinite}
+.d-cross .b{background:linear-gradient(135deg,#2A1206,#9E2A14);animation:xfade 3.2s var(--ease) infinite reverse}
+@keyframes xfade{0%,100%{opacity:1}50%{opacity:0}}
+.d-leak{background:#2A1206;position:relative;overflow:hidden}
+.d-leak::after{content:"";position:absolute;top:-12%;bottom:-12%;left:-40%;width:46%;filter:blur(26px);
+  background:linear-gradient(90deg,transparent,rgba(255,182,128,.5) 40%,rgba(255,234,198,.85) 50%,rgba(255,182,128,.5) 60%,transparent);
+  animation:leak 3.4s var(--ease) infinite}
+@keyframes leak{0%{transform:translateX(-10%) rotate(8deg);opacity:0}25%{opacity:.7}70%{opacity:.3}100%{transform:translateX(360%) rotate(6deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.d-cross .a,.d-cross .b,.d-leak::after{animation:none}.d-cross .b{opacity:0}}
+
+/* ───── components ───── */
+.comp-block{margin-bottom:30px}
+.comp-cap{font-family:var(--mono);font-weight:500;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:14px}
+.comp-stage{border:1px solid var(--line);padding:30px 26px;background:color-mix(in srgb,var(--text) 3%,transparent);
+  display:flex;flex-wrap:wrap;gap:30px;align-items:center}
+/* the signature animated-dash CTA */
+.cta{display:inline-flex;align-items:center;gap:14px;font-family:var(--mono);font-weight:500;font-size:.74rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--text);cursor:pointer;transition:gap .4s var(--ease)}
+.cta i{display:block;width:24px;height:1px;background:currentColor;transition:width .4s var(--ease)}
+.cta:hover{gap:18px}.cta:hover i{width:34px}
+.navset{display:flex;gap:30px;flex-wrap:wrap}
+.navset a{font-family:var(--mono);font-weight:500;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-2);transition:color .3s}
+.navset a:hover,.navset a.on{color:var(--text)}
+.idxchip{font-family:var(--mono);font-weight:500;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--text-3)}
+.kickchip{font-family:var(--mono);font-weight:500;font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:var(--text-3)}
+.thumbdemo{width:150px;aspect-ratio:3/4;overflow:hidden;background:linear-gradient(150deg,#B85A39,#2A1206);position:relative;cursor:pointer}
+.thumbdemo::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#C9BFA6,#9E2A14);
+  filter:grayscale(.5) contrast(1.02);transition:transform .9s var(--ease),filter .6s var(--ease)}
+.thumbdemo:hover::before{transform:scale(1.05);filter:grayscale(0) contrast(1.05)}
+.framedemo{width:210px;aspect-ratio:3/2;border:1px solid var(--line);background:linear-gradient(135deg,#C9BFA6,#8A2414);
+  box-shadow:0 30px 70px rgba(40,12,4,.4)}
+
+/* ───── motion ───── */
+.motion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:16px}
+.motion-card{border:1px solid var(--line);padding:22px;background:color-mix(in srgb,var(--text) 3%,transparent)}
+.motion-card h4{font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+.motion-card .curve{font-family:var(--mono);font-size:.78rem;color:var(--text);margin-bottom:6px;word-break:break-all}
+.motion-card p{font-size:.86rem;line-height:1.5;color:var(--text-2)}
+.track{height:2px;background:var(--line);margin:18px 0 0;position:relative;border-radius:2px}
+.track .dot{position:absolute;top:50%;left:0;width:10px;height:10px;border-radius:50%;background:var(--red);transform:translate(-50%,-50%)}
+.track .dot.run{animation:slide 2.6s infinite}
+.track.ease .dot.run{animation-timing-function:cubic-bezier(.22,.65,.18,1)}
+.track.quint .dot.run{animation-timing-function:cubic-bezier(.22,1,.36,1)}
+@keyframes slide{0%{left:0}45%{left:100%}55%{left:100%}100%{left:0}}
+@media(prefers-reduced-motion:reduce){.track .dot.run{animation:none}}
+
+/* ───── spacing ───── */
+.scale-chips{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:6px}
+.scale-chips .s{background:color-mix(in srgb,var(--red) 70%,transparent);width:var(--w);height:var(--w);min-width:8px;
+  position:relative;border-radius:1px}
+.scale-chips .s span{position:absolute;bottom:-20px;left:0;font-family:var(--mono);font-size:.58rem;color:var(--text-3)}
+.layout-tbl{width:100%;border-collapse:collapse;margin-top:40px;font-size:.86rem}
+.layout-tbl th,.layout-tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.layout-tbl th{font-family:var(--mono);font-weight:500;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.layout-tbl td{color:var(--text-2)}.layout-tbl td:first-child{color:var(--text);font-weight:700}
+.layout-tbl code{font-family:var(--mono);font-size:.84em;color:var(--text-2)}
+
+/* ════════ THE DOCUMENT WINDOW (embedded DESIGN.md) ════════ */
+.docwin{margin-top:clamp(70px,8vw,110px);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background:#1C1109;box-shadow:0 50px 120px -40px rgba(20,6,2,.7),0 0 0 1px rgba(244,236,220,.04) inset;
+  --text:var(--paper);--text-2:var(--paper-2);--text-3:var(--paper-3);--line:var(--line-paper)}
+.docwin .bar{display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(20,6,2,.6);
+  border-bottom:1px solid rgba(244,236,220,.12)}
+.docwin .lights{display:flex;gap:8px}
+.docwin .lights i{width:11px;height:11px;border-radius:50%;display:block}
+.docwin .lights i:nth-child(1){background:#9E2A14}.docwin .lights i:nth-child(2){background:#C98A3A}.docwin .lights i:nth-child(3){background:#5E7B4E}
+.docwin .fname{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;color:rgba(244,236,220,.7);text-transform:uppercase}
+.docwin .actions{margin-left:auto;display:flex;gap:8px}
+.docbtn{font-family:var(--mono);font-weight:500;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  cursor:pointer;background:transparent;border:1px solid rgba(244,236,220,.22);color:rgba(244,236,220,.82);
+  padding:8px 14px;border-radius:999px;transition:all .25s var(--ease)}
+.docbtn:hover{background:var(--red);border-color:var(--red);color:#F4ECDC}
+.docbtn.copied{background:#5E7B4E;border-color:#5E7B4E;color:#F4ECDC}
+.docbody{max-height:660px;overflow-y:auto;padding:clamp(26px,4vw,52px) clamp(22px,4vw,56px);color:var(--paper-2);
+  scrollbar-width:thin;scrollbar-color:rgba(244,236,220,.24) transparent}
+.docbody::-webkit-scrollbar{width:10px}
+.docbody::-webkit-scrollbar-thumb{background:rgba(244,236,220,.2);border-radius:8px;border:3px solid #1C1109}
+/* markdown render */
+.md-h{font-family:var(--sans);color:var(--paper);text-transform:uppercase;letter-spacing:-.01em;line-height:1.04}
+.md-h1{font-weight:700;font-size:clamp(1.7rem,3vw,2.5rem);margin:8px 0 6px}
+.md-h2{font-weight:700;font-size:clamp(1.3rem,2.2vw,1.8rem);margin:42px 0 14px;padding-top:26px;border-top:1px solid rgba(244,236,220,.14)}
+.md-h3{font-weight:700;font-size:1.12rem;margin:26px 0 10px;letter-spacing:.01em}
+.md-h4{font-family:var(--mono);font-weight:500;font-size:.72rem;letter-spacing:.16em;color:#D08A5C;margin:20px 0 8px}
+.md-p{font-size:.95rem;line-height:1.7;margin:0 0 14px;color:rgba(244,236,220,.8);max-width:74ch}
+.md-ul{margin:0 0 16px;padding-left:0;list-style:none}
+.md-ul li{position:relative;padding-left:22px;margin-bottom:8px;font-size:.92rem;line-height:1.6;color:rgba(244,236,220,.8)}
+.md-ul li::before{content:"—";position:absolute;left:0;color:#9E2A14}
+.md-bq{border-left:2px solid #9E2A14;padding:6px 0 6px 20px;margin:0 0 18px;color:rgba(244,236,220,.66);font-style:italic;font-size:.95rem;line-height:1.65}
+.md-hr{border:none;border-top:1px solid rgba(244,236,220,.14);margin:30px 0}
+.md-p strong,.md-ul strong,.md-bq strong,.md-table strong{color:var(--paper);font-weight:700}
+.md-p code,.md-ul code,.md-bq code,.md-table code,.md-h code{font-family:var(--mono);font-size:.84em;
+  background:rgba(158,42,20,.26);color:#F4ECDC;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.md-pre{background:#120A05;border:1px solid rgba(244,236,220,.12);border-radius:9px;padding:18px 20px;margin:0 0 18px;
+  overflow-x:auto;font-family:var(--mono);font-size:.8rem;line-height:1.7;color:rgba(244,236,220,.78)}
+.md-pre code{font-family:var(--mono);background:none;padding:0;color:inherit;white-space:pre}
+.md-table{width:100%;border-collapse:collapse;margin:0 0 20px;font-size:.84rem;display:block;overflow-x:auto}
+.md-table th,.md-table td{text-align:left;padding:9px 14px;border-bottom:1px solid rgba(244,236,220,.12);vertical-align:top;white-space:nowrap}
+.md-table th{font-family:var(--mono);font-weight:500;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,236,220,.6)}
+.md-table td{color:rgba(244,236,220,.8)}.md-table td:first-child{color:var(--paper)}
+
+footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+@media(max-width:560px){.masthead{flex-direction:column}.spec-label{width:100%}}
+</style>
+</head>
+<body>
+<div class="bg-base"></div>
+<div class="bg-stone"></div>
+<div class="grain"></div>
+<div class="vig"></div>
+
+<div class="toggle" id="toggle">
+  <button data-mode-set="dark" class="on">Dark</button>
+  <button data-mode-set="light">Stone</button>
+</div>
+
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div>
+      <div class="wordmark">TIME <span class="dash"></span> CAPSULE <span class="dash"></span> TAPES</div>
+      <div class="kick eyebrow"><span class="dot"></span> Design Standard · DESIGN.MD</div>
+      <h1>The Time Capsule Tapes design standard</h1>
+      <p class="lede">One warm fabric canvas, an editorial uppercase type system in Chivo, monospace metadata, and a paper-to-ink inversion. Toggle the mode — the identity holds in both. Everything is in this one file; the full written standard sits at the end, ready to copy.</p>
+    </div>
+  </div>
+
+  <!-- 01 BRAND -->
+  <section>
+    <div class="sec-tag" data-n="01">Brand &amp; atmosphere</div>
+    <div class="sec-title">Cinematic, archival, warm.</div>
+    <p class="sec-note">Time Capsule Tapes documents real families through documentary-style photography. The brand is the feeling of a warm archive caught on film: a fabric-textured canvas the colour of sun-faded terracotta and limestone, fine grain over everything, and one deep oxide red used sparingly as the accent. It is editorial and quiet, never glossy. The voice is plain and human; the imagery carries the emotion, the design just frames it.</p>
+    <div class="principles">
+      <div class="principle"><span class="n">01</span><h4>The photo leads</h4><p>Full-bleed imagery is the hero. Type, chrome and accents stay deferential — they label and frame, they never compete with the picture.</p></div>
+      <div class="principle"><span class="n">02</span><h4>Warm, never cold</h4><p>No pure black, no pure white. Every neutral is warmed toward paper or ink. Depth comes from grain, vignette and a fabric gradient — not hard shadows.</p></div>
+      <div class="principle"><span class="n">03</span><h4>Restraint as luxury</h4><p>One accent red. One type pairing. Uppercase headlines, monospace metadata. The confidence is in what is left out.</p></div>
+    </div>
+    <ul class="signature">
+      <li><b>Warm fabric gradient canvas</b> — terracotta to oxide, never flat black.</li>
+      <li><b>Full-bleed photo plates</b> that crossfade as you scroll.</li>
+      <li><b>Fine film grain + soft vignette</b> over the whole frame to seat the type.</li>
+      <li><b>Chivo uppercase display</b>, tight and monumental.</li>
+      <li><b>Chivo Mono metadata</b> — indices, kickers, nav, captions.</li>
+      <li><b>Paper ⇄ ink inversion</b> — text recolours per section, light over limestone.</li>
+      <li><b>One oxide red</b> (<code>#9E2A14</code>) as the single accent.</li>
+      <li><b>A cinematic film-leak intro</b>, then content assembles beat by beat.</li>
+    </ul>
+  </section>
+
+  <!-- 02 TWO MODES -->
+  <section>
+    <div class="sec-tag" data-n="02">The two modes</div>
+    <div class="sec-title">Paper on dark, ink on stone.</div>
+    <p class="sec-note">The brand is dual by construction. Most sections are warm <b>paper</b> (<code>#F4ECDC</code>) over the dark fabric gradient; the limestone sections invert to warm <b>ink</b> (<code>#241F18</code>) over stone (<code>#E7DECC</code>). Only the text tokens swap — the grain, vignette and layout never change. Toggle the control above to flip this whole page between the two.</p>
+    <div class="modes">
+      <div class="mode-card dark">
+        <span class="mc-tag">Dark · paper on fabric</span>
+        <h3>You live it.<br/>We capture it.</h3>
+        <p>Default identity. Warm paper text and one red accent over the terracotta gradient.</p>
+        <span class="mc-mail"><i></i> hello@timecapsuletapes.com</span>
+      </div>
+      <div class="mode-card light">
+        <span class="mc-tag">Stone · ink on limestone</span>
+        <h3>You live it.<br/>We capture it.</h3>
+        <p>The inversion used on limestone sections. Same geometry, warm ink replaces paper.</p>
+        <span class="mc-mail"><i></i> hello@timecapsuletapes.com</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 COLOUR -->
+  <section>
+    <div class="sec-tag" data-n="03">Colour tokens</div>
+    <div class="sec-title">Warm neutrals, one oxide accent.</div>
+    <p class="sec-note">Paper and its alphas carry text on dark; ink and its alphas carry text on stone. Hairlines are always a low-alpha tint of the text colour, never a neutral grey. Red is the only chromatic accent — used for the active dot, the section number, selection, and the rare emphasis.</p>
+    <div class="swatches" id="swatches"></div>
+  </section>
+
+  <!-- 04 TYPE -->
+  <section>
+    <div class="sec-tag" data-n="04">Typography</div>
+    <div class="sec-title">Two families, one job each.</div>
+    <p class="sec-note">Chivo for everything spoken aloud — monumental uppercase headlines and relaxed body. Chivo Mono for everything labelled — indices, kickers, navigation, captions, timestamps. The sans/mono contrast is the brand's "archivist" signal. Headlines are uppercase, tightly tracked, set at line-height under 1; body stays sentence-case and open.</p>
+    <div class="specimen">
+      <div class="spec-row"><span class="spec-label">Chivo 700 · display</span><span class="spec-d">You live it. We capture it.</span></div>
+      <div class="spec-row"><span class="spec-label">Chivo 700 · section</span><span class="spec-h">Documentary family portraits</span></div>
+      <div class="spec-row"><span class="spec-label">Chivo 400 · body</span><span class="spec-b">We document your story through photography, shaped by community spirit.</span></div>
+      <div class="spec-row" style="border-bottom:none"><span class="spec-label">Chivo Mono 500 · meta</span><span class="spec-m">Selected Works · 001 · Malta — Europe</span></div>
+    </div>
+    <table class="scale-tbl">
+      <thead><tr><th>Role</th><th>Family</th><th>Size</th><th>Weight</th><th>Line / Track</th></tr></thead>
+      <tbody>
+        <tr><td>Display / hero</td><td>Chivo</td><td><code>clamp(3.4rem, 9vw, 8.6rem)</code></td><td>700</td><td>0.9 / -.018em</td></tr>
+        <tr><td>Section headline</td><td>Chivo</td><td><code>clamp(2rem, 4vw, 3.9rem)</code></td><td>700</td><td>0.92 / -.014em</td></tr>
+        <tr><td>Sub-headline</td><td>Chivo</td><td><code>clamp(1.5rem, 2.4vw, 2.3rem)</code></td><td>700</td><td>1.02 / -.005em</td></tr>
+        <tr><td>Body</td><td>Chivo</td><td><code>clamp(1.2rem, …, 1.4rem)</code></td><td>400</td><td>1.6 / normal</td></tr>
+        <tr><td>Kicker / eyebrow</td><td>Chivo Mono</td><td><code>clamp(.6rem, .74vw, .72rem)</code></td><td>500</td><td>1.3 / .26em</td></tr>
+        <tr><td>Nav / label</td><td>Chivo Mono</td><td><code>clamp(.6rem, .72vw, .7rem)</code></td><td>500</td><td>— / .2em</td></tr>
+        <tr><td>Index</td><td>Chivo Mono</td><td><code>.7rem</code></td><td>500</td><td>— / .24em</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 05 ATMOSPHERE -->
+  <section>
+    <div class="sec-tag" data-n="05">Atmosphere &amp; texture</div>
+    <div class="sec-title">Depth from grain, not shadow.</div>
+    <p class="sec-note">Six stacked layers build the signature feel. They are fixed, full-bleed and behind all content. Get these right and any layout reads on-brand; skip them and it looks like a generic dark site.</p>
+    <div class="atmo">
+      <div class="atile"><div class="demo d-grad"></div><div class="cap"><h4>Fabric gradient</h4><p>The base canvas: <code>linear-gradient(150deg, #C9BFA6, #B85A39 46%, #8A2414)</code> over a deep red root.</p></div></div>
+      <div class="atile"><div class="demo d-cross"><span class="a"></span><span class="b"></span></div><div class="cap"><h4>Crossfade plates</h4><p>Two photo plates fade across each other over 1.25s as sections change.</p></div></div>
+      <div class="atile"><div class="demo d-grain"></div><div class="cap"><h4>Film grain</h4><p>Fractal-noise SVG, <code>soft-light</code>, opacity .5. The texture that makes it feel shot, not rendered.</p></div></div>
+      <div class="atile"><div class="demo d-vig"></div><div class="cap"><h4>Vignette</h4><p>A soft radial darkening at the edges to seat the type and focus the centre.</p></div></div>
+      <div class="atile"><div class="demo d-scrim"></div><div class="cap"><h4>Legibility scrim</h4><p>One shared black plate whose opacity is dialled per section for text contrast.</p></div></div>
+      <div class="atile"><div class="demo d-leak"></div><div class="cap"><h4>Film-leak intro</h4><p>A warm light streak sweeps across on load, then content assembles beat by beat.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 06 COMPONENTS -->
+  <section>
+    <div class="sec-tag" data-n="06">Components</div>
+    <div class="sec-title">Spare, editorial, link-driven.</div>
+    <p class="sec-note">There are no filled buttons or pills. Calls to action are monospace labels with a single growing rule. Navigation, indices and kickers are all tracked mono. Imagery desaturates at rest and warms to full colour on hover.</p>
+
+    <div class="comp-block">
+      <span class="comp-cap">Signature CTA — mono label + growing rule (hover it)</span>
+      <div class="comp-stage"><a class="cta">Explore the family legacy <i></i></a><a class="cta">Get in touch <i></i></a></div>
+    </div>
+    <div class="comp-block">
+      <span class="comp-cap">Navigation · index · kicker</span>
+      <div class="comp-stage">
+        <nav class="navset"><a class="on">Selected Works</a><a>What We Offer</a><a>Family Legacy</a><a>Contact Us</a></nav>
+        <span class="idxchip">01 — Studio</span>
+        <span class="kickchip">Field Notes</span>
+      </div>
+    </div>
+    <div class="comp-block">
+      <span class="comp-cap">Imagery — desaturated at rest, warm on hover · framed plate</span>
+      <div class="comp-stage" style="align-items:stretch">
+        <div class="thumbdemo" title="Hover"></div>
+        <div class="framedemo"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 MOTION -->
+  <section>
+    <div class="sec-tag" data-n="07">Motion</div>
+    <div class="sec-title">Slow, confident, decelerating.</div>
+    <p class="sec-note">Two easing curves do all the work. Nothing is linear, nothing bounces. Crossfades are slow (around a second); micro-interactions are quick (.3–.4s). Decorative loops are reserved for the load sequence only.</p>
+    <div class="motion-grid">
+      <div class="motion-card"><h4>Primary ease</h4><div class="curve">cubic-bezier(.22,.65,.18,1)</div><p>Backgrounds, colour inversion, hovers. The everyday curve.</p><div class="track ease"><span class="dot run"></span></div></div>
+      <div class="motion-card"><h4>Refined / intro</h4><div class="curve">cubic-bezier(.22,1,.36,1)</div><p>The cinematic intro beats — a longer, smoother deceleration.</p><div class="track quint"><span class="dot run"></span></div></div>
+      <div class="motion-card"><h4>Durations</h4><div class="curve">.3s · .9s · 1.25s</div><p>Micro-interactions .3–.4s · colour &amp; chrome .9s · background crossfade 1.25s.</p></div>
+      <div class="motion-card"><h4>Intro beats</h4><div class="curve">leak → A → B → C → D</div><p>Film-leak reveal, then brand, headline, side copy and chrome resolve 250ms apart.</p></div>
+    </div>
+  </section>
+
+  <!-- 08 SPACING -->
+  <section>
+    <div class="sec-tag" data-n="08">Spacing &amp; layout</div>
+    <div class="sec-title">Generous, even, full-height.</div>
+    <p class="sec-note">Sections fill the viewport and breathe on a fluid gutter. The base step is 4px; spacing grows on a consistent scale. Content holds to a wide measure and the gutter scales with the viewport.</p>
+    <div class="scale-chips">
+      <div class="s" style="--w:8px"><span>8</span></div>
+      <div class="s" style="--w:12px"><span>12</span></div>
+      <div class="s" style="--w:16px"><span>16</span></div>
+      <div class="s" style="--w:24px"><span>24</span></div>
+      <div class="s" style="--w:32px"><span>32</span></div>
+      <div class="s" style="--w:48px"><span>48</span></div>
+      <div class="s" style="--w:64px"><span>64</span></div>
+    </div>
+    <table class="layout-tbl">
+      <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>--gut</td><td><code>clamp(22px, 4.2vw, 76px)</code></td><td>page side gutter</td></tr>
+        <tr><td>--maxw</td><td><code>1680px</code></td><td>max content width (site); centred</td></tr>
+        <tr><td>Section</td><td><code>min-height: 100svh</code></td><td>each section fills the viewport</td></tr>
+        <tr><td>Section pad</td><td><code>clamp(120px,16vh,200px)</code> top</td><td>vertical rhythm between bands</td></tr>
+        <tr><td>Grid gap</td><td><code>clamp(40px, 7vw, 120px)</code></td><td>two-column hero / offer gap</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ════════ THE DOCUMENT ════════ -->
+  <section>
+    <div class="sec-tag" data-n="09">The written standard</div>
+    <div class="sec-title">Everything, in one document.</div>
+    <p class="sec-note">The complete brief below is the same content as the rendered sections above, written out in full with examples, recipes, anti-patterns and a ship-ready checklist. Hand this whole file to a designer or an AI and they have everything. Copy the raw markdown or download it as <code>DESIGN.md</code>.</p>
+
+    <div class="docwin">
+      <div class="bar">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <span class="fname">TIMECAPSULETAPES — DESIGN.md</span>
+        <div class="actions">
+          <button class="docbtn" id="copyMd">Copy markdown</button>
+          <button class="docbtn" id="dlMd">Download .md</button>
+        </div>
+      </div>
+      <div class="docbody" id="docBody"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Time Capsule Tapes · Design Standard</span>
+    <span>Chivo · Chivo Mono · #9E2A14</span>
+  </footer>
+</div>
+
+<!-- raw DESIGN.md source — rendered into #docBody and powering Copy/Download -->
+<script type="text/plain" id="mdSrc">
+# DESIGN.md — The Time Capsule Tapes Standard
+
+> **What this is.** The single authoritative brief for producing on-brand Time Capsule Tapes design pieces — the website, social posts, decks, print. Hand this file to any designer or AI and they should ship something on-brand in one or two passes, not ten.
+>
+> **How to use it.** Read section 2, The Fingerprint, before drawing anything — those are the details that get faked and look wrong. Build from the section 11 recipes, then self-check against the section 12 checklist. When a value here disagrees with the live `style.css`, the live CSS wins.
+
+**Section map** — 1 Brand · 2 Fingerprint · 3 Two modes · 4 Colour · 5 Typography · 6 Atmosphere · 7 Components · 8 Motion · 9 Spacing · 10 Imagery · 11 Recipes · 12 Checklist · 13 Anti-patterns.
+
+---
+
+## 1. Brand & atmosphere
+
+Time Capsule Tapes documents real families through **documentary-style photography**, based in Malta and available across Europe. The brand feels like **a warm archive caught on film** — sun-faded terracotta and limestone, fine grain over everything, one deep oxide red used sparingly. It is **editorial and quiet, never glossy or corporate.** The photographs carry the emotion; the design only frames them.
+
+The voice is **plain and human**: "You live it. We capture it." No jargon, no hype, no exclamation. Visually it is **warm, textured and restrained** — full-bleed imagery, uppercase Chivo headlines, monospace metadata that reads like a contact sheet, and slow, confident motion.
+
+**Three principles that resolve most decisions:**
+- **The photo leads.** Type, chrome and accent defer to the image — they label and frame, never compete.
+- **Warm, never cold.** No pure black or white; every neutral is warmed toward paper or ink. Depth comes from grain and vignette, not hard shadows.
+- **Restraint as luxury.** One accent red, one type pairing. The confidence is in what is left out.
+
+---
+
+## 2. The Fingerprint — get these right or it looks fake
+
+- **No pure black, no pure white.** Text is warm paper `#F4ECDC` or warm ink `#241F18`. Pure `#fff` / `#000` instantly breaks the brand.
+- **The canvas is a warm fabric gradient,** not flat dark: `linear-gradient(150deg, #C9BFA6, #B85A39 46%, #8A2414)` over a deep red root `#7C2113`.
+- **Grain over everything.** A fractal-noise SVG at `mix-blend-mode: soft-light`, opacity .5. This is the single most-skipped detail and the one that makes it feel shot on film.
+- **Hairlines are tinted, never grey.** Borders are a low-alpha tint of the text colour — `rgba(244,236,220,.26)` on dark, `rgba(36,31,24,.20)` on stone.
+- **Metadata is monospace.** Indices, kickers, nav, captions, timestamps all use Chivo Mono, uppercase, widely tracked. This is the "archivist" signal.
+- **Headlines are uppercase Chivo,** tightly tracked, line-height under 1. Monumental and calm.
+- **One oxide red** `#9E2A14` is the only chromatic accent — section numbers, the live dot, selection, rare emphasis. Never a second accent colour.
+- **CTAs are not buttons.** They are mono labels with a single thin rule that grows on hover. No pills, no fills, no drop shadows.
+- **Imagery desaturates at rest** and warms to full colour on hover; full-bleed plates crossfade slowly between sections.
+- **Motion decelerates.** Always `cubic-bezier(.22,.65,.18,1)`; never linear, never bouncy.
+
+---
+
+## 3. The two modes
+
+Dual by construction; dark is the default.
+
+| | Dark (default) | Stone (inverse) |
+|---|---|---|
+| Canvas | warm fabric gradient | limestone `#E7DECC` |
+| Text | paper `#F4ECDC` | ink `#241F18` |
+| Hairline | `rgba(244,236,220,.26)` | `rgba(36,31,24,.20)` |
+| Vignette | `rgba(40,10,4,.30)` | `rgba(60,46,22,.16)` |
+| Mood | warm archive at dusk | bright contact sheet |
+
+**Only the text tokens swap.** The grain, the vignette geometry, the layout and the type never change between modes — the site flips `--text` / `--text-2` / `--text-3` / `--line` on a body class as limestone sections scroll in, over a slow .9s colour transition. Never branch layout or texture by mode.
+
+---
+
+## 4. Colour
+
+Use these tokens. Never invent a hex a token already names.
+
+| Role | Token | Value |
+|---|---|---|
+| Paper text (on dark) | `--paper` | `#F4ECDC` |
+| Paper secondary | `--paper-2` | `rgba(244,236,220,.82)` |
+| Paper tertiary | `--paper-3` | `rgba(244,236,220,.52)` |
+| Paper hairline | `--line-paper` | `rgba(244,236,220,.26)` |
+| Ink text (on stone) | `--ink` | `#241F18` |
+| Ink secondary | `--ink-2` | `#574E40` |
+| Ink tertiary | `--ink-3` | `#8A8071` |
+| Ink hairline | `--line-ink` | `rgba(36,31,24,.20)` |
+| Accent | `--red` | `#9E2A14` |
+| Limestone surface | `--stone` | `#E7DECC` |
+| Canvas root | — | `#7C2113` |
+
+**Rules.** Paper carries text over the dark canvas; ink carries text over stone. Secondary alphas are for body copy, tertiary for metadata. Hairlines are always the tinted line token, never neutral grey. **Red is the only accent** — the live dot, the section index, selection, rare emphasis. Never introduce a second chromatic colour; warmth and contrast do the rest.
+
+---
+
+## 5. Typography
+
+Two families, each with one job. Load Chivo 400/500/700 and Chivo Mono 400/500/700.
+
+```
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;700&family=Chivo+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+```
+
+| Family | Role | Notes |
+|---|---|---|
+| **Chivo** | headlines, display, body | uppercase + tight tracking at display sizes; sentence-case body |
+| **Chivo Mono** | indices, kickers, nav, captions | uppercase, tracking .2–.26em — the metadata voice |
+
+### Scale
+
+| Role | Family | Size | Weight | Line / Track |
+|---|---|---|---|---|
+| Display / hero | Chivo | `clamp(3.4rem, 9vw, 8.6rem)` | 700 | 0.9 / -.018em |
+| Section headline | Chivo | `clamp(2rem, 4vw, 3.9rem)` | 700 | 0.92 / -.014em |
+| Sub-headline | Chivo | `clamp(1.5rem, 2.4vw, 2.3rem)` | 700 | 1.02 / -.005em |
+| Body | Chivo | `clamp(1.2rem, …, 1.4rem)` | 400 | 1.6 |
+| Kicker / eyebrow | Chivo Mono | `clamp(.6rem, .74vw, .72rem)` | 500 | .26em |
+| Nav / label | Chivo Mono | `clamp(.6rem, .72vw, .7rem)` | 500 | .2em |
+| Index | Chivo Mono | `.7rem` | 500 | .24em |
+
+**Type feel.** Headlines uppercase, monumental, line-height under 1, slightly negative tracking. Body sentence-case and open at 1.6. Mono always uppercase and tracked. Never set body in mono; never set metadata in the sans.
+
+```
+.display { font-weight:700; text-transform:uppercase; line-height:.94; letter-spacing:-.01em; text-wrap:balance; }
+.kick    { font-family:"Chivo Mono"; font-weight:500; letter-spacing:.26em; text-transform:uppercase; color:var(--paper-3); }
+.body    { font-weight:400; font-size:clamp(1.2rem,1.03rem + .35vw,1.4rem); line-height:1.6; color:var(--paper-2); max-width:46ch; }
+```
+
+---
+
+## 6. Atmosphere & texture
+
+Six fixed, full-bleed layers, all behind content. This stack is the brand.
+
+- **Canvas root** — `html { background:#7C2113; }` so nothing ever flashes black.
+- **Fabric gradient** — `.bg-base { background:linear-gradient(150deg,#C9BFA6 0%,#B85A39 46%,#8A2414 100%); }`
+- **Photo plates** — two stacked plates that crossfade `opacity` over `1.25s var(--ease)` as sections change.
+- **Legibility scrim** — one shared black plate, opacity dialled per section for text contrast.
+- **Film grain** — fractal-noise SVG, `mix-blend-mode:soft-light`, `opacity:.5`.
+- **Vignette** — `radial-gradient(130% 120% at 50% 36%, transparent 56%, rgba(40,10,4,.30))`; softer on stone.
+
+```
+.grain { position:fixed; inset:0; z-index:-2; pointer-events:none; opacity:.5;
+  mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,...feTurbulence baseFrequency='0.85'..."); }
+.vig   { position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(130% 120% at 50% 36%, transparent 56%, rgba(40,10,4,.30)); }
+```
+
+**Film-leak intro.** On load, a warm light streak sweeps across (with a rose bloom and a corner halation), the page gradually reveals, then hero elements assemble one beat at a time, 250ms apart, on the refined curve. All of it is gated under `prefers-reduced-motion: no-preference`.
+
+---
+
+## 7. Components
+
+### Kicker / index (the metadata label)
+Bare tracked mono, tertiary colour — no pill, no chip. Often a section number: `01 — Studio`.
+```
+.kick { font-family:"Chivo Mono"; font-weight:500; letter-spacing:.26em; text-transform:uppercase; color:var(--paper-3); }
+```
+
+### Navigation
+Mono, uppercase, `.2em` tracking, secondary colour, brightening to full on hover / active.
+
+### Signature CTA — label + growing rule
+The brand's one interactive flourish. A mono label and a thin rule that lengthens (and the gap widens) on hover. No fill, ever.
+```
+.cta   { display:inline-flex; align-items:center; gap:14px; font-family:"Chivo Mono"; font-weight:500;
+  font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text); transition:gap .4s var(--ease); }
+.cta i { display:block; width:24px; height:1px; background:currentColor; transition:width .4s var(--ease); }
+.cta:hover   { gap:18px; }
+.cta:hover i { width:34px; }
+```
+
+### Imagery
+Thumbnails sit in a `3/4` frame, slightly desaturated (`grayscale(.12) contrast(1.02)`) and warm to full colour while scaling `1.05` on hover. Feature and recent-work plates carry a long soft warm shadow `0 30px 80px rgba(40,12,4,.28)` and a tinted hairline.
+
+### Footer / chrome
+Fixed top header and bottom rail, both mono, both recolouring with the section. On mobile the rail collapses into a frosted dark dropdown menu.
+
+---
+
+## 8. Motion
+
+- **Primary ease** `cubic-bezier(.22,.65,.18,1)` — backgrounds, colour inversion, hovers.
+- **Refined / intro ease** `cubic-bezier(.22,1,.36,1)` — the cinematic load beats.
+- **Durations** — micro-interactions .3–.4s; colour and chrome .9s; background crossfade 1.25s.
+- **Entrances** animate from a hidden, blurred, slightly-displaced state to the visible base style, gated under `prefers-reduced-motion: no-preference` so reduced-motion and exports show the end state.
+- **No decorative infinite loops on content** — only the load sequence and the live red dot move on their own.
+
+---
+
+## 9. Spacing & layout
+
+Base unit 4px. Grow on a consistent scale: `4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 120`.
+
+| Token | Value | Use |
+|---|---|---|
+| `--gut` | `clamp(22px, 4.2vw, 76px)` | page side gutter |
+| `--maxw` | `1680px` | max content width, centred |
+| Section | `min-height: 100svh` | each section fills the viewport |
+| Section pad | `clamp(120px,16vh,200px)` top | vertical rhythm |
+| Grid gap | `clamp(40px, 7vw, 120px)` | two-column hero / offer |
+
+Heroes are **left-aligned and editorial**, not centred. Each section states one idea and fills the screen. Always lay out rows of siblings with flex / grid `gap`, never per-element margins.
+
+---
+
+## 10. Imagery direction
+
+- **Documentary, not posed.** Real moments, natural light, warm grade. Faces and hands over scenery.
+- **Warm grade.** Lift the warmth; let blacks stay warm (never crushed to neutral). A faint grain is welcome.
+- **Full-bleed where possible.** Let the image run edge to edge behind the type; use the scrim for legibility rather than shrinking the photo.
+- **At rest slightly desaturated, warm on interaction** — the gallery's quiet-to-alive move.
+
+---
+
+## 11. Recipes
+
+### Minimal on-brand section shell
+```
+<section class="sec">
+  <div class="wrap">
+    <span class="idx">01 — Studio</span>
+    <h1 class="display" style="font-size:clamp(3.4rem,9vw,8.6rem)">You live it.<br>We capture it.</h1>
+    <p class="body">We document your story through photography, shaped by community spirit.</p>
+    <a class="cta">Explore the family legacy <i></i></a>
+  </div>
+</section>
+```
+Add the fixed `.bg-base`, `.grain` and `.vig` layers once at the top of `<body>`, and the token `:root` block. That is a complete on-brand frame.
+
+### Limestone (stone) section
+Add a body class as the section scrolls in that swaps the text tokens to ink; keep everything else identical:
+```
+body.on-light { --text:var(--ink); --text-2:var(--ink-2); --text-3:var(--ink-3); --line:var(--line-ink); }
+```
+
+---
+
+## 12. Ship-ready checklist
+
+- [ ] Text is paper or ink — **never** `#fff` / `#000`.
+- [ ] Warm fabric gradient canvas present, over the `#7C2113` root.
+- [ ] **Grain layer** present (`soft-light`, opacity .5) and vignette seated.
+- [ ] Hairlines are tinted line tokens, not grey.
+- [ ] Headlines uppercase Chivo, tight tracking, line-height < 1.
+- [ ] Metadata / kickers / nav / captions in Chivo Mono, tracked.
+- [ ] Exactly one accent: oxide red `#9E2A14`. No second colour.
+- [ ] CTAs are mono label + growing rule — no pills, no fills.
+- [ ] Imagery desaturated at rest, warm on hover; plates crossfade.
+- [ ] Motion uses `cubic-bezier(.22,.65,.18,1)`; nothing linear or bouncy.
+- [ ] Reduced-motion: entrances gated; no infinite loops on content.
+- [ ] Spacing on the 4px scale; rows use flex/grid `gap`.
+- [ ] Sections fill `100svh`; heroes left-aligned, editorial.
+
+---
+
+## 13. Anti-patterns (instant "off-brand" tells)
+
+- Pure black or white text. Use paper / ink.
+- A flat dark background with no grain or gradient.
+- Grey 1px borders or hard black drop shadows.
+- Filled pill buttons or a coloured CTA. The CTA is a mono label with a rule.
+- A second accent colour beside the oxide red.
+- Inter / Roboto / Arial. Chivo and Chivo Mono only.
+- Centred, symmetrically-stacked heroes. The brand leads left.
+- Glossy, high-saturation imagery; cold colour grades.
+- Linear easing or springy bounce.
+- Emoji as UI.
+
+---
+
+*Maintained for Time Capsule Tapes. When a value here disagrees with the production `style.css`, the live CSS wins — update this document to match.*
+</script>
+
+<!-- bundler splash (only used if this file is later bundled to standalone) -->
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#7C2113"/><g fill="#F4ECDC" font-family="monospace" font-weight="700"><text x="50" y="46" font-size="11" text-anchor="middle" letter-spacing="2">TCT</text><text x="50" y="62" font-size="6" text-anchor="middle" letter-spacing="1" fill="#9E2A14">DESIGN.MD</text></g></svg>
+</template>
+
+<script>
+document.documentElement.classList.remove('no-js');
+
+/* ── mode toggle ── */
+(function(){
+  var root=document.documentElement;
+  document.getElementById('toggle').addEventListener('click',function(e){
+    var b=e.target.closest('[data-mode-set]'); if(!b) return;
+    root.setAttribute('data-mode', b.dataset.modeSet);
+    this.querySelectorAll('button').forEach(function(x){x.classList.toggle('on', x===b);});
+  });
+})();
+
+/* ── colour swatches ── */
+(function(){
+  var tokens=[
+    ['Paper','--paper · text on dark','#F4ECDC','#F4ECDCFF','rgb(244, 236, 220)'],
+    ['Paper 2','--paper-2 · body','rgba(244,236,220,.82)','#F4ECDCD1','rgba(244, 236, 220, 0.82)'],
+    ['Paper 3','--paper-3 · meta','rgba(244,236,220,.52)','#F4ECDC85','rgba(244, 236, 220, 0.52)'],
+    ['Line','--line-paper · hairline','rgba(244,236,220,.26)','#F4ECDC42','rgba(244, 236, 220, 0.26)'],
+    ['Ink','--ink · text on stone','#241F18','#241F18FF','rgb(36, 31, 24)'],
+    ['Ink 2','--ink-2 · body','#574E40','#574E40FF','rgb(87, 78, 64)'],
+    ['Ink 3','--ink-3 · meta','#8A8071','#8A8071FF','rgb(138, 128, 113)'],
+    ['Line ink','--line-ink · hairline','rgba(36,31,24,.20)','#241F1833','rgba(36, 31, 24, 0.20)'],
+    ['Red','--red · accent','#9E2A14','#9E2A14FF','rgb(158, 42, 20)'],
+    ['Stone','--stone · limestone','#E7DECC','#E7DECCFF','rgb(231, 222, 204)'],
+    ['Canvas','root · fabric base','#7C2113','#7C2113FF','rgb(124, 33, 19)']
+  ];
+  document.getElementById('swatches').innerHTML=tokens.map(function(t){
+    return '<div class="sw"><div class="chip" style="background:'+t[2]+'"></div>'+
+      '<div class="meta"><b>'+t[0]+'</b><div class="role">'+t[1]+'</div>'+
+      '<div class="vrow"><span class="lbl">Hex</span><span class="v">'+t[3]+'</span></div>'+
+      '<div class="vrow"><span class="lbl">Rgba</span><span class="v">'+t[4]+'</span></div>'+
+      '</div></div>';
+  }).join('');
+})();
+
+/* ── markdown render ── */
+(function(){
+  var src=document.getElementById('mdSrc').textContent;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function inline(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+  var lines=src.replace(/\r/g,'').split('\n'), html='', i=0;
+  function isBlock(l){return /^(#{1,4}\s|>|[-*]\s|```|\|)/.test(l);}
+  while(i<lines.length){
+    var l=lines[i];
+    if(/^```/.test(l)){ i++; var code=''; while(i<lines.length&&!/^```/.test(lines[i])){code+=lines[i]+'\n';i++;} i++;
+      html+='<pre class="md-pre"><code>'+esc(code.replace(/\n$/,''))+'</code></pre>'; continue; }
+    if(/^\s*\|.*\|\s*$/.test(l) && i+1<lines.length && /^\s*\|[\s:|-]+\|\s*$/.test(lines[i+1])){
+      var head=l.trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim();}); i+=2; var rows=[];
+      while(i<lines.length && /^\s*\|.*\|\s*$/.test(lines[i])){ rows.push(lines[i].trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim();})); i++; }
+      html+='<table class="md-table"><thead><tr>'+head.map(function(h){return '<th>'+inline(h)+'</th>';}).join('')+'</tr></thead><tbody>'+
+        rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+inline(c)+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>'; continue; }
+    var m=l.match(/^(#{1,4})\s+(.*)$/);
+    if(m){ var n=m[1].length; html+='<h'+n+' class="md-h md-h'+n+'">'+inline(m[2])+'</h'+n+'>'; i++; continue; }
+    if(/^---+\s*$/.test(l)){ html+='<hr class="md-hr">'; i++; continue; }
+    if(/^>\s?/.test(l)){ var q=''; while(i<lines.length&&/^>\s?/.test(lines[i])){q+=lines[i].replace(/^>\s?/,'')+' ';i++;} html+='<blockquote class="md-bq">'+inline(q.trim())+'</blockquote>'; continue; }
+    if(/^[-*]\s+/.test(l)){ var it=''; while(i<lines.length&&/^[-*]\s+/.test(lines[i])){it+='<li>'+inline(lines[i].replace(/^[-*]\s+/,''))+'</li>';i++;} html+='<ul class="md-ul">'+it+'</ul>'; continue; }
+    if(/^\s*$/.test(l)){ i++; continue; }
+    var p=l; i++; while(i<lines.length && !/^\s*$/.test(lines[i]) && !isBlock(lines[i])){ p+=' '+lines[i]; i++; }
+    html+='<p class="md-p">'+inline(p)+'</p>';
+  }
+  document.getElementById('docBody').innerHTML=html;
+
+  /* copy + download */
+  var raw=src.replace(/^\n/,'');
+  document.getElementById('copyMd').addEventListener('click',function(){
+    var btn=this;
+    navigator.clipboard.writeText(raw).then(function(){
+      btn.textContent='Copied'; btn.classList.add('copied');
+      setTimeout(function(){btn.textContent='Copy markdown'; btn.classList.remove('copied');},1800);
+    });
+  });
+  document.getElementById('dlMd').addEventListener('click',function(){
+    var blob=new Blob([raw],{type:'text/markdown'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='Time Capsule Tapes — DESIGN.md'; document.body.appendChild(a); a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href); a.remove();},100);
+  });
+})();
+</script>
+</body>
+</html>

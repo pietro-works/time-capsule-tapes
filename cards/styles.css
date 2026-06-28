@@ -1,0 +1,324 @@
+/* ════════════════════════════════════════════════════════════════
+   TIME CAPSULE TAPES — CONTENT CARD STUDIO
+   Chivo + Chivo Mono · warm-ink documentary system, extended from the
+   site brand. Cards render at a true 1080px export canvas and are
+   transform-scaled to fit the gallery. Every px below is export-res.
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  --sans:"Chivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Chivo Mono",ui-monospace,monospace;
+
+  --paper:#F4ECDC; --paper-2:rgba(244,236,220,.82); --paper-3:rgba(244,236,220,.52);
+  --line-paper:rgba(244,236,220,.26);
+  --ink:#241F18;  --ink-2:#574E40; --ink-3:#8A8071; --line-ink:rgba(36,31,24,.22);
+  --red:#9E2A14;  --stone:#E7DECC; --sand:#C9BFA6;
+
+  --ease:cubic-bezier(.22,.65,.18,1);
+  --quint:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:#2A0E06;color:var(--paper);overflow-x:hidden}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible{outline:1.5px solid var(--paper);outline-offset:3px}
+::selection{background:var(--paper);color:var(--red)}
+
+/* shared grain texture (data-uri, soft-light) */
+.tex{position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:soft-light;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ═══════════════ APP SHELL ═══════════════ */
+.app{min-height:100vh;display:flex;flex-direction:column}
+/* ═══════════════ DOCK (controls) ═══════════════ */
+.dock{position:sticky;top:0;z-index:35;display:grid;grid-template-columns:minmax(0,1fr);
+  align-items:end;gap:12px 18px;padding:13px clamp(18px,3vw,40px);background:rgba(28,10,4,.5);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(244,236,220,.1)}
+.dock-controls{display:grid;grid-template-columns:repeat(5,minmax(88px,1fr)) auto;gap:10px;min-width:0;align-items:end}
+.dgroup{display:flex;min-width:0;flex-direction:column;align-items:flex-start;gap:6px}
+.dgroup>.lab{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--paper-3)}
+.select{position:relative;width:100%;min-width:0}
+.select-trigger{width:100%;min-height:38px;padding:0 11px;border:1px solid rgba(244,236,220,.2);
+  border-radius:2px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--paper);background:rgba(28,10,4,.22);white-space:nowrap;transition:background .22s,color .22s,border-color .22s}
+.select-trigger:hover,.select.open .select-trigger{background:rgba(244,236,220,.08);border-color:rgba(244,236,220,.42)}
+.select-current{overflow:hidden;text-overflow:ellipsis}
+.select-arrow{width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg) translateY(-2px);opacity:.7;flex:none;transition:transform .22s var(--ease),opacity .22s}
+.select.open .select-arrow{transform:rotate(225deg) translateY(-1px);opacity:1}
+.select-menu{position:absolute;left:0;top:calc(100% + 6px);z-index:70;min-width:100%;width:max-content;
+  max-width:min(260px,calc(100vw - 28px));max-height:min(360px,62vh);overflow:auto;padding:4px;
+  border:1px solid rgba(244,236,220,.18);border-radius:2px;background:rgba(28,10,4,.94);
+  box-shadow:0 24px 70px rgba(20,6,2,.48);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .18s var(--ease),transform .18s var(--ease)}
+.select.open .select-menu{opacity:1;transform:translateY(0);pointer-events:auto}
+.select-menu button{width:100%;min-height:34px;padding:0 10px;border-radius:1px;display:flex;align-items:center;
+  font-family:var(--mono);font-weight:500;font-size:10.3px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--paper-2);white-space:nowrap;text-align:left;transition:background .18s,color .18s}
+.select-menu button:hover,.select-menu button:focus-visible{background:rgba(244,236,220,.08);color:var(--paper);outline:0}
+.select-menu button.on{background:var(--paper);color:var(--red)}
+.dock-actions{display:grid;grid-template-columns:repeat(3,64px);align-self:end;gap:8px;width:auto;min-width:0}
+.act{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--paper);min-width:64px;min-height:38px;padding:0 12px;border:1px solid rgba(244,236,220,.3);
+  border-radius:2px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  white-space:nowrap;transition:background .25s,color .25s}
+.act svg{width:18px;height:18px;display:block;fill:currentColor}
+.act:hover{background:var(--paper);color:var(--red)}
+.act.on{background:var(--paper);color:var(--red)}
+
+/* ═══════════════ CANVAS / GRID ═══════════════ */
+.canvas{flex:1;padding:clamp(22px,3.4vw,52px) clamp(18px,3vw,40px) 120px}
+.grid{display:grid;gap:clamp(20px,2.4vw,40px);margin:0 auto;max-width:1640px;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--slot,320px)),1fr));
+  justify-items:center}
+.slot{width:100%;position:relative}
+.slot .num{position:absolute;top:-2px;left:0;transform:translateY(-100%);
+  font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--paper-3);padding-bottom:7px;pointer-events:none}
+.slot.hide{display:none}
+
+/* the scaling frame — keeps the slot's aspect, holds the 1080 card scaled down */
+.frame{position:relative;width:100%;overflow:hidden;cursor:zoom-in;
+  box-shadow:0 22px 60px rgba(20,6,2,.46);transition:transform .5s var(--quint),box-shadow .5s}
+.frame:hover{transform:translateY(-4px);box-shadow:0 34px 80px rgba(20,6,2,.55)}
+
+/* ═══════════════ THE CARD (true 1080 export canvas) ═══════════════ */
+.card{width:1080px;position:absolute;top:0;left:0;transform-origin:top left;
+  display:flex;flex-direction:column;color:var(--paper);overflow:hidden;
+  --pad:96px; --hl:88px; --hllh:1.0; --photo-scrim:.46; --photo-vig:.26;
+  background:linear-gradient(150deg,#C9BFA6 0%,#B85A39 46%,#8A2414 100%)}
+.card .tex{opacity:.5}
+.card .vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(132% 122% at 50% 36%,transparent 55%,rgba(30,8,3,.42))}
+.card .photo{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:0}
+.card .photo img{width:100%;height:100%;object-fit:cover;filter:contrast(1.02) saturate(.96)}
+.card .scrim{position:absolute;inset:0;pointer-events:none;opacity:0;z-index:1;
+  background:linear-gradient(180deg,rgba(20,6,2,.32) 0%,rgba(20,6,2,.12) 38%,rgba(20,6,2,.82) 100%)}
+.card .tex,.card .vig{z-index:2}
+
+/* card chrome */
+.card .inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+  padding:var(--pad);gap:0}
+.c-top{display:flex;align-items:baseline;justify-content:space-between;gap:30px;flex:none}
+.eyebrow{font-family:var(--mono);font-weight:500;font-size:23px;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--paper-2)}
+.c-idx{display:none;font-family:var(--mono);font-weight:500;font-size:20px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--paper-3);white-space:nowrap}
+
+.c-body{flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:var(--body-pad,48px) 0;min-height:0}
+.headline{font-weight:700;text-transform:uppercase;line-height:var(--hllh);
+  letter-spacing:-.012em;font-size:var(--hl);text-wrap:balance;max-width:18ch}
+.support{font-family:var(--sans);font-weight:400;font-size:30px;line-height:1.5;
+  color:var(--paper-2);max-width:34ch;margin-top:34px}
+
+/* opening quotation flourish for quote cards */
+.card[data-type="quote"] .headline::before{content:"“";font-family:var(--sans);
+  font-weight:700;display:block;font-size:120px;line-height:.5;margin-bottom:18px;
+  color:var(--paper-3);opacity:.6}
+
+/* tip / field-note: rule under eyebrow handled by layout; smaller headline */
+.card[data-type="tip"]{--hl:62px;--hllh:1.04}
+.card[data-type="tip"] .headline{max-width:20ch}
+.card[data-type="announcement"]{--hl:70px;--hllh:1.0}
+.card[data-type="question"]{--hl:78px;--hllh:1.04}
+.card[data-type="cta"]{--hl:72px;--hllh:1.02}
+
+/* stat: oversized two-line statement */
+.card[data-type="stat"]{--hl:150px;--hllh:.92}
+.card[data-type="stat"] .headline{max-width:14ch}
+.card[data-type="stat"] .support{font-family:var(--sans);font-weight:700;text-transform:uppercase;
+  font-size:var(--stat-support,var(--hl));line-height:.92;letter-spacing:-.012em;color:var(--paper);max-width:14ch;margin-top:0}
+
+/* cta affordance line */
+.c-cta{display:none}
+.card[data-type="cta"] .support,.card[data-type="announcement"] .support{
+  font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.14em;
+  font-size:25px;color:var(--paper);display:inline-flex;align-items:center;gap:16px;max-width:none}
+.card[data-type="cta"] .support::before,.card[data-type="announcement"] .support::before{
+  content:"";display:block;width:46px;height:2px;background:currentColor;flex:none}
+
+/* footer lockup */
+.c-foot{flex:none;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+  padding-top:var(--foot-pad,30px);border-top:1px solid var(--line-paper)}
+.lockup{display:block;width:230px;height:98px;object-fit:contain;flex:0 0 230px}
+.sig{font-family:var(--mono);font-weight:500;font-size:19px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--paper-3);text-align:right;align-self:flex-end}
+
+/* ═══════════════ BACKGROUNDS (6) ═══════════════ */
+.card[data-bg="ember"]{background:linear-gradient(150deg,#C9BFA6 0%,#B85A39 46%,#8A2414 100%)}
+.card[data-bg="deep"]{background:radial-gradient(120% 120% at 50% 30%,#9E2A14 0%,#7C2113 48%,#5C1608 100%)}
+.card[data-bg="oxblood"]{background:linear-gradient(160deg,#5C1608 0%,#3F0E04 100%)}
+.card[data-bg="limestone"]{background:radial-gradient(120% 120% at 50% 24%,#F2EAD8 0%,#E7DECC 55%,#D8CCB2 100%)}
+.card[data-bg="sand"]{background:linear-gradient(155deg,#D8CDB0 0%,#C9BFA6 52%,#B7A988 100%)}
+.card[data-bg="photo"]{background:#2A0E06}
+.card[data-bg="photo"] .photo{opacity:1}
+.card[data-bg="photo"] .scrim{opacity:var(--photo-scrim)}
+.card[data-bg="photo"] .tex{opacity:0;background-image:none}
+.card[data-bg="photo"] .vig{opacity:var(--photo-vig)}
+.card[data-bg="photo"][data-vignette="off"] .scrim,
+.card[data-bg="photo"][data-vignette="off"] .tex,
+.card[data-bg="photo"][data-vignette="off"] .vig{opacity:0}
+
+/* ink-text inversion for the two light plates */
+.card.on-ink{color:var(--ink)}
+.card.on-ink .eyebrow{color:var(--ink-2)}
+.card.on-ink .c-idx{color:var(--ink-3)}
+.card.on-ink .support{color:var(--ink-2)}
+.card.on-ink .headline::before{color:var(--ink-3)}
+.card.on-ink .c-foot{border-color:var(--line-ink)}
+.card.on-ink .lockup{filter:brightness(0) saturate(100%)}
+.card.on-ink .sig{color:var(--ink-3)}
+.card.on-ink .vig{background:radial-gradient(132% 122% at 50% 40%,transparent 60%,rgba(90,60,28,.14))}
+.card.on-ink[data-type="cta"] .support,.card.on-ink[data-type="announcement"] .support{color:var(--red)}
+.card.on-ink[data-type="stat"] .support{color:var(--ink)}
+
+/* ═══════════════ LAYOUTS (4) ═══════════════
+   Applied as a class on each .card. Re-flows the body composition. */
+
+/* 1 · EDITORIAL — eyebrow top, statement anchored to the bottom of the body */
+.card.lay-editorial .c-body{justify-content:flex-end}
+.card.lay-editorial .headline{max-width:17ch}
+
+/* 2 · CENTERED — everything optically centered */
+.card.lay-centered .inner{text-align:center}
+.card.lay-centered .c-top{justify-content:center;gap:18px}
+.card.lay-centered .c-top .c-idx{display:none}
+.card.lay-centered .c-body{align-items:center;justify-content:center}
+.card.lay-centered .headline{margin-inline:auto}
+.card.lay-centered .support{margin-inline:auto}
+.card.lay-centered[data-type="quote"] .headline::before{margin-inline:auto;text-align:center}
+.card.lay-centered .c-foot{justify-content:center;gap:34px;border-top:0;
+  padding-top:0;margin-top:8px}
+.card.lay-centered .sig{text-align:center}
+.card.lay-centered .c-cta{justify-content:center}
+
+/* 3 · STATEMENT — type dominates, minimal chrome, big headline */
+.card.lay-statement{--hl:108px}
+.card.lay-statement[data-type="tip"]{--hl:74px}
+.card.lay-statement[data-type="stat"]{--hl:172px}
+.card.lay-statement[data-type="cta"]{--hl:92px}
+.card.lay-statement[data-type="question"]{--hl:96px}
+.card.lay-statement .c-top .eyebrow{font-size:21px}
+.card.lay-statement .c-body{justify-content:center}
+.card.lay-statement .headline{max-width:15ch}
+.card.lay-statement[data-type="quote"] .headline::before{display:none}
+
+/* 4 · DOCUMENT — eyebrow + rule + headline + support stacked top, archival */
+.card.lay-document .c-body{justify-content:flex-start;padding-top:28px}
+.card.lay-document .c-top{padding-bottom:26px;border-bottom:1px solid var(--line-paper);
+  margin-bottom:8px}
+.card.on-ink.lay-document .c-top{border-color:var(--line-ink)}
+.card.lay-document[data-type="quote"] .headline::before{display:none}
+.card.lay-document .headline{max-width:18ch}
+
+.card[data-ratio="16x9"]{--pad:64px;--body-pad:20px;--foot-pad:18px}
+.card[data-ratio="16x9"] .eyebrow{font-size:20px}
+.card[data-ratio="16x9"] .c-idx{font-size:17px}
+.card[data-ratio="16x9"] .headline{max-width:24ch}
+.card[data-ratio="16x9"] .support{margin-top:22px}
+.card[data-ratio="16x9"] .lockup{width:176px;height:75px;flex-basis:176px}
+.card[data-ratio="16x9"] .sig{font-size:16px}
+.card[data-ratio="16x9"][data-type="cta"] .support,
+.card[data-ratio="16x9"][data-type="announcement"] .support{font-size:22px}
+.card[data-ratio="16x9"][data-type="stat"] .support{max-width:none;white-space:nowrap}
+
+/* ═══════════════ FOCUS / LIGHTBOX ═══════════════ */
+.focus{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;
+  padding:5vh 5vw;background:rgba(28,10,4,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.focus.open{display:flex}
+.focus .stage{position:relative}
+.focus .frame{cursor:default;box-shadow:0 50px 130px rgba(0,0,0,.6)}
+.focus .frame:hover{transform:none}
+.focus .fnav{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);
+  font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);
+  padding:14px;transition:color .25s}
+.focus .fnav:hover{color:var(--paper)}
+.focus .fprev{right:100%;margin-right:18px}
+.focus .fnext{left:100%;margin-left:18px}
+.focus .fmeta{position:absolute;top:100%;left:0;right:0;margin-top:18px;display:flex;
+  justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--paper-3)}
+.focus .fclose{position:fixed;top:26px;right:30px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--paper-2);display:flex;align-items:center;gap:9px}
+.focus .fclose:hover{color:var(--paper)}
+.focus .fdl{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--paper);padding:11px 20px;border:1px solid rgba(244,236,220,.32);border-radius:2px;
+  display:inline-flex;align-items:center;gap:10px;background:rgba(28,10,4,.5);transition:background .25s,color .25s}
+.focus .fdl:hover{background:var(--paper);color:var(--red)}
+.focus .fdl i{display:block;width:18px;height:1.5px;background:currentColor;transition:width .3s}
+.focus .fdl:hover i{width:26px}
+.focus .fdl.busy{opacity:.6;pointer-events:none}
+@media(max-width:680px){.focus .fnav{display:none}}
+
+@media(hover:none){
+  .frame:hover{transform:none;box-shadow:0 22px 60px rgba(20,6,2,.46)}
+}
+
+@media(max-width:760px){
+  .dock{top:0;grid-template-columns:1fr;align-items:stretch;gap:10px;
+    padding:10px 14px 12px;overflow:visible}
+  .dock-controls{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .dgroup{min-width:0}
+  .dgroup>.lab{font-size:9px;letter-spacing:.18em}
+  .select-trigger{min-height:44px;padding:0 12px;font-size:10px}
+  .select-menu{width:100%;max-width:none;max-height:min(320px,58vh)}
+  .select-menu button{min-height:42px;font-size:10px}
+  .dock-actions{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;width:100%}
+  .act{min-width:0;min-height:44px;padding:0;font-size:10px;border-radius:0;border-right:0}
+  .act:first-child{border-radius:2px 0 0 2px}
+  .act:last-child{border-right:1px solid rgba(244,236,220,.3);border-radius:0 2px 2px 0}
+
+  .canvas{padding:22px 14px calc(92px + env(safe-area-inset-bottom))}
+  .grid{gap:28px;justify-items:stretch}
+  .frame{box-shadow:0 16px 42px rgba(20,6,2,.42)}
+
+  .focus{align-items:center;padding:64px 14px calc(96px + env(safe-area-inset-bottom))}
+  .focus .stage{width:100%;display:flex;justify-content:center}
+  .focus .frame{box-shadow:0 24px 80px rgba(0,0,0,.55)}
+  .focus .fmeta{display:none}
+  .focus .fclose{top:12px;right:14px;min-height:44px;padding:0 4px}
+  .focus .fdl{left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));
+    transform:none;justify-content:center;min-height:44px}
+}
+
+@media(max-width:360px){
+  .dock{top:0}
+  .act{padding:0}
+}
+
+/* edit mode */
+.editing .frame{cursor:default}
+.editing [data-edit]{outline:1px dashed rgba(244,236,220,.4);outline-offset:6px;cursor:text}
+.card.on-ink.editing [data-edit],.editing .card.on-ink [data-edit]{outline-color:rgba(36,31,24,.4)}
+[data-edit]:focus{outline:1.5px solid var(--paper) !important}
+.editing [data-edit="headline"],.editing [data-edit="support"]{position:relative}
+.editing [data-edit="headline"]::after,.editing [data-edit="support"]::after{
+  content:"";position:absolute;top:0;right:-14px;bottom:0;width:10px;
+  border-right:2px solid rgba(244,236,220,.46);opacity:.78;cursor:ew-resize}
+.editing .card.on-ink [data-edit="headline"]::after,
+.editing .card.on-ink [data-edit="support"]::after{border-color:rgba(36,31,24,.42)}
+.resizing-textbox,.resizing-textbox *{cursor:ew-resize !important;user-select:none}
+
+/* empty support shouldn't reserve space */
+.support:empty{display:none}
+
+/* ═══════════════ PRINT — one card per page, fitted & centred ═══════════════ */
+@page{ size:A4 portrait; margin:12mm; }
+@media print{
+  .dock,.focus,.slot .num{display:none !important}
+  body{background:#fff}
+  .canvas{padding:0}
+  .grid{display:block;max-width:none;gap:0}
+  .slot{width:auto;display:flex;align-items:center;justify-content:center;
+    break-after:page;page-break-after:always}
+  .slot:last-child{break-after:auto;page-break-after:auto}
+  .frame{box-shadow:none}
+  .frame:hover{transform:none}
+}
+
+@media(prefers-reduced-motion:reduce){*{transition:none !important}}
